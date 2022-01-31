@@ -4,6 +4,8 @@ import appConfig from '../config.json';
 function GlobalStyle() {
     return (
       <style global jsx>{`
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,500&display=swap');
+
         * {
           margin: 0;
           padding: 0;
@@ -11,7 +13,7 @@ function GlobalStyle() {
           list-style: none;
         }
         body {
-          font-family: 'Open Sans', sans-serif;
+          font-family: 'Poppins', sans-serif;
         }
         /* App fit Height */ 
         html, body, #__next {
@@ -65,7 +67,7 @@ function Title(props){
 //   export default HomePage
 
 export default function PaginaInicial() {
-    const username = 'peas';
+    const username = 'satoosan';
   
     return (
       <>
@@ -73,8 +75,8 @@ export default function PaginaInicial() {
         <Box
           styleSheet={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            backgroundColor: appConfig.theme.colors.primary[500],
-            backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+            backgroundColor: 'appConfig.theme.colors.primary[500]',
+            backgroundImage: 'url(https://cdn.discordapp.com/attachments/897304698468565022/937828890259382363/Pngtreeabstract_polygonal_space_low_poly_1178266.jpg)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
           }}
         >
@@ -88,9 +90,12 @@ export default function PaginaInicial() {
                 sm: 'row',
               },
               width: '100%', maxWidth: '700px',
-              borderRadius: '5px', padding: '32px', margin: '16px',
-              boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
+              borderRadius: '10px', padding: '32px', margin: '16px',
+              boxShadow: '0 8px 32px 0 rgba( 255, 255, 255, 0.1 )',
               backgroundColor: appConfig.theme.colors.neutrals[700],
+              background: 'rgba( 255, 255, 255, 0.01 )',
+              backdropFilter: 'blur( 20px )',
+              webkitBackdropFilter: 'blur( 20px )',
             }}
           >
             {/* Formulário */}
@@ -102,7 +107,7 @@ export default function PaginaInicial() {
               }}
             >
               <Title tag="h2">Boas vindas de volta!</Title>
-              <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+              <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals['300'] }}>
                 {appConfig.name}
               </Text>
   
@@ -110,10 +115,11 @@ export default function PaginaInicial() {
                 fullWidth
                 textFieldColors={{
                   neutral: {
-                    textColor: appConfig.theme.colors.neutrals[200],
-                    mainColor: appConfig.theme.colors.neutrals[900],
-                    mainColorHighlight: appConfig.theme.colors.primary[500],
-                    backgroundColor: appConfig.theme.colors.neutrals[800],
+                    textColor: appConfig.theme.colors.neutrals['000'],
+                    mainColorHighlight: 'rgba( 255, 255, 255, 0.2 )',
+                    backgroundColor: 'rgba( 255, 255, 255, 0.1 )',
+                    backdropFilter: 'blur( 20px )',
+                    webkitBackdropFilter: 'blur( 20px )',
                   },
                 }}
               />
@@ -123,9 +129,9 @@ export default function PaginaInicial() {
                 fullWidth
                 buttonColors={{
                   contrastColor: appConfig.theme.colors.neutrals["000"],
-                  mainColor: appConfig.theme.colors.primary[500],
-                  mainColorLight: appConfig.theme.colors.primary[400],
-                  mainColorStrong: appConfig.theme.colors.primary[600],
+                  mainColor: 'rgba( 255, 255, 255, 0.1 )',
+                  mainColorLight: 'rgba( 255, 255, 255, 0.1 )',
+                  mainColorStrong: 'rgba( 0, 0, 0, 0.5 )',
                 }}
               />
             </Box>
@@ -140,10 +146,12 @@ export default function PaginaInicial() {
                 alignItems: 'center',
                 maxWidth: '200px',
                 padding: '16px',
-                backgroundColor: appConfig.theme.colors.neutrals[800],
-                border: '1px solid',
-                borderColor: appConfig.theme.colors.neutrals[999],
-                borderRadius: '10px',
+                borderRadius: '10px', padding: '32px', margin: '16px',
+                boxShadow: '0 8px 32px 0 rgba( 255, 255, 255, 0.1 )',
+                backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+                background: 'rgba( 0, 0, 0, 0.20 )',
+                backdropFilter: 'blur( 2.5px )',
+                webkitBackdropFilter: 'blur( 2.5px )',
                 flex: 1,
                 minHeight: '240px',
               }}
@@ -158,10 +166,15 @@ export default function PaginaInicial() {
               <Text
                 variant="body4"
                 styleSheet={{
-                  color: appConfig.theme.colors.neutrals[200],
-                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  color: appConfig.theme.colors.neutrals['000'],
+                  fontSize: '18px',
                   padding: '3px 10px',
-                  borderRadius: '1000px'
+                  borderRadius: '10px',
+                  boxShadow: '0 8px 32px 0 rgba( 0, 0, 0, 0.9 )',
+                  backgroundColor: appConfig.theme.colors.neutrals[700],
+                  background: 'rgba( 0, 0, 0, 0.7 )',
+                  backdropFilter: 'blur( 20px )',
+                  webkitBackdropFilter: 'blur( 20px )',
                 }}
               >
                 {username}
