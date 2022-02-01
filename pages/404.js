@@ -1,7 +1,5 @@
-import { Box, Button, Text, TextField, Image, Icon } from '@skynexui/components';
+import { Box } from '@skynexui/components';
 import React from 'react';
-import { useRouter } from 'next/router'
-import appConfig from '../config.json';
 
 // pages/404.js
 export default function Error404(){
