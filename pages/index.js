@@ -1,6 +1,6 @@
 import { Box, Button, Text, TextField, Image, Icon } from '@skynexui/components';
 import React from 'react';
-import { useEffect, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import appConfig from '../config.json';
 
 
@@ -41,7 +41,7 @@ function Title(props){
 
 export default function PaginaInicial() {
     // const username = 'omariosouto';
-    const [github, setGithub] = React.useState("");
+    const [github, setGithub] = React.useState('');
     const [username, setUserName] = React.useState('omariosouto');  
     const roteamento = useRouter();
 
@@ -99,7 +99,7 @@ export default function PaginaInicial() {
               }}
             >
               <Title tag="h2">Boas vindas de volta!</Title>
-              <Text styleSheet={{fontSize: '25px', color: appConfig.theme.colors.neutrals['000']}}>{github.name }</Text>
+              <Text styleSheet={{fontSize: '25px', color: appConfig.theme.colors.neutrals['000']}}>{github.name == null ? "" : `${github.name}` }</Text>
               <Text variant="body3" styleSheet={{ marginTop: '15px' ,marginBottom: '30px', color: appConfig.theme.colors.neutrals['300'] }}>
                 {appConfig.name}
               </Text>
@@ -200,8 +200,8 @@ export default function PaginaInicial() {
                 }}
               > 
 
-                {username.length > 0 ? <i class="fas fa-user-friends"></i> : ""}
-                {username.length > 0 ? ` ${github.followers}` : ""}
+                {username.length <= 0 || github.followers == null ? "" : <i className="fas fa-user-friends"></i>}
+                {username.length <= 0 || github.followers == null ? "" : ` ${github.followers}`}
               </Text>
             </Box>
             {/* Photo Area */}
