@@ -1,6 +1,6 @@
-import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { Box, Button, Text, TextField, Image, Icon } from '@skynexui/components';
 import React from 'react';
-import { useRouter } from 'next/router'
+import { useEffect, useRouter } from 'next/router'
 import appConfig from '../config.json';
 
 
@@ -41,8 +41,23 @@ function Title(props){
 
 export default function PaginaInicial() {
     // const username = 'omariosouto';
+    const [github, setGithub] = React.useState("");
     const [username, setUserName] = React.useState('omariosouto');  
     const roteamento = useRouter();
+
+    React.useEffect(() => {
+      fetch(`https://api.github.com/users/${username}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          setGithub(result);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }, [username]);
+
     return (
       <>
         <Box
@@ -84,7 +99,8 @@ export default function PaginaInicial() {
               }}
             >
               <Title tag="h2">Boas vindas de volta!</Title>
-              <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals['300'] }}>
+              <Text styleSheet={{fontSize: '25px', color: appConfig.theme.colors.neutrals['000']}}>{github.name }</Text>
+              <Text variant="body3" styleSheet={{ marginTop: '15px' ,marginBottom: '30px', color: appConfig.theme.colors.neutrals['300'] }}>
                 {appConfig.name}
               </Text>
               
@@ -172,6 +188,20 @@ export default function PaginaInicial() {
                 }}
               >
                 {username}
+              </Text>
+              <Text
+                variant="body5"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals['000'],
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  padding: '5px 10px',
+                  fontSize: '16px',
+                }}
+              > 
+
+                {username.length > 0 ? <i class="fas fa-user-friends"></i> : ""}
+                {username.length > 0 ? ` ${github.followers}` : ""}
               </Text>
             </Box>
             {/* Photo Area */}
