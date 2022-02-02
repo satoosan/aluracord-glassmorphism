@@ -1,35 +1,82 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { useRouter } from 'next/router';
+import { createClient } from '@supabase/supabase-js';
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzgxNzQ4MywiZXhwIjoxOTU5MzkzNDgzfQ.VpFTeVjyn7-Q7zWxA20RBavG7ecQcpXYXdnoDbtswsQ';
+const SUPABASE_URL = 'https://wnjnrxqsffccemdeklft.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function escutaMensagensEmTempoReal(adicionaMensagem) {
+    return supabaseClient
+      .from('mensagens')
+      .on('INSERT', (respostaLive) => {
+        adicionaMensagem(respostaLive.new);
+      })
+      .subscribe();
+  }
 
 export default function ChatPage() {
+    const roteamento = useRouter();
+    const usuarioLogado = roteamento.query.username;
     const [mensagem, setMensagem] = React.useState('');
     const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
 
-    /*
-    // Usuário
-    - Usuário digita no campo textarea
-    - Aperta enter para enviar
-    - Tem que adicionar o texto na listagem
+    React.useEffect(() => {
+        supabaseClient
+          .from('mensagens')
+          .select('*')
+          .order('id', { ascending: false })
+          .then(({ data }) => {
+            // console.log('Dados da consulta:', data);
+            setListaDeMensagens(data);
+          });
     
-    // Dev
-    - [X] Campo criado
-    - [X] Vamos usar o onChange usa o useState (ter if pra caso seja enter pra limpar a variavel)
-    - [X] Lista de mensagens 
-    */
-    function handleNovaMensagem(novaMensagem) {
+        const subscription = escutaMensagensEmTempoReal((novaMensagem) => {
+          console.log('Nova mensagem:', novaMensagem);
+          console.log('listaDeMensagens:', listaDeMensagens);
+          // Quero reusar um valor de referencia (objeto/array) 
+          // Passar uma função pro setState
+    
+          // setListaDeMensagens([
+          //     novaMensagem,
+          //     ...listaDeMensagens
+          // ])
+          setListaDeMensagens((valorAtualDaLista) => {
+            console.log('valorAtualDaLista:', valorAtualDaLista);
+            return [
+              novaMensagem,
+              ...valorAtualDaLista,
+            ]
+          });
+        });
+    
+        return () => {
+          subscription.unsubscribe();
+        }
+      }, []);
+    
+      function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + 1,
-            de: 'vanessametonini',
-            texto: novaMensagem,
+          // id: listaDeMensagens.length + 1,
+          de: usuarioLogado,
+          texto: novaMensagem,
         };
-
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-        ]);
+    
+        supabaseClient
+          .from('mensagens')
+          .insert([
+            // Tem que ser um objeto com os MESMOS CAMPOS que você escreveu no supabase
+            mensagem
+          ])
+          .then(({ data }) => {
+            console.log('Criando mensagem: ', data);
+          });
+    
         setMensagem('');
-    }
+      }
 
     return (
         <Box
@@ -121,6 +168,11 @@ export default function ChatPage() {
                             }}
                             
                         />
+                        <ButtonSendSticker 
+                            onStickerClick={(sticker)=>{
+                                handleNovaMensagem(':sticker: ' + sticker)
+                            }}
+                        />
                     <Button
                     variant='tertiary'
                     colorVariant='neutral'
@@ -131,7 +183,7 @@ export default function ChatPage() {
                     className="fas fa-paper-plane"
                     styleSheet={{
                         position: 'absolute',
-                        right: '30px',
+                        right: '80px',
                         hover:{
                         backgroundColor : 'rgba( 5, 5, 5, 9 )',
                         }
@@ -220,7 +272,7 @@ function MessageList(props) {
                                     borderRadius: '50%',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/vanessametonini.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text tag="strong"
                             styleSheet={{display: 'inline'}}
@@ -240,9 +292,17 @@ function MessageList(props) {
                                 {(new Date().toLocaleDateString())}
                             </Text>
                         </Box>
-                        {
-                        mensagem.texto
+                        {mensagem.texto.startsWith(':sticker:')
+                            ? (
+                                <Image src={mensagem.texto.replace(':sticker:', '')}/>
+                            )
+                            : (
+                                mensagem.texto
+                            )
                         }
+                        {/* {
+                        mensagem.texto
+                        } */}
                     </Text>
                 );
             })}
