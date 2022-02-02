@@ -125,7 +125,9 @@ export default function ChatPage() {
                     variant='tertiary'
                     colorVariant='neutral'
                     label=''
-                    href="/"
+                    onClick={()=>{
+                        handleNovaMensagem(mensagem);
+                    }}
                     className="fas fa-paper-plane"
                     styleSheet={{
                         position: 'absolute',
