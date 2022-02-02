@@ -25,6 +25,29 @@ function GlobalStyle() {
         #__next > * {
           flex: 1;
         }
+        ::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: transparent;
+        }
+        ::-webkit-scrollbar-button{
+          background-color: transparent;
+        }
+        ::-webkit-scrollbar-track-piece{
+          background-color: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 115px;
+            background: #fff;
+        }
+        ::-webkit-scrollbar-button{
+          background: transparent;
+        }
+        ::-webkit-scrollbar-corner{
+          background: transparent;
+        }
         /* ./App fit Height */ 
       `}</style>
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
